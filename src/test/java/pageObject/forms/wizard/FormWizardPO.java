@@ -13,15 +13,28 @@ public class FormWizardPO extends CommonPageObject {
      * 3.3. Don't tolerate code duplications
      * 3.4. Keep your Classes and methods small.!!!!! ----!!!!!
      */
-    public void getHeader(){}
-    public void pressOnStepOne(){}
-    public void pressOnStepTwo(){}
-    public void pressOnLastStep(){}
+    public void getHeader() {
+    }
 
-    public void pressOnNextBtn(){}
-    public void pressOnPrevBtn(){}
-    public void pressOnSubmitBtn(){}
+    public void pressOnStepOne() {
+    }
 
-    public void dealThisAlert(){}
+    public void pressOnStepTwo() {
+    }
+
+    public void pressOnLastStep() {
+    }
+
+    public void pressOnNextBtn() {
+    }
+
+    public void pressOnPrevBtn() {
+    }
+
+    public void pressOnSubmitBtn() {
+    }
+
+    public void dealThisAlert() {
+    }
 
 }

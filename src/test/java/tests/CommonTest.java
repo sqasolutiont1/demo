@@ -14,11 +14,12 @@ public class CommonTest {
     FormWizardPO formWizardPO = new FormWizardPO();
 
     @BeforeMethod
-    public void getToThePage(){
-        formWizardFirstStep.navigateToWizard();
+    public void getToThePage() {
+        new FormWizardFirstStepPO().navigateToWizard();
     }
+
     @AfterMethod
-    public void closeTheDriverEveryTime(){
+    public void closeTheDriverEveryTime() {
         formWizardPO.closeDriver();
     }
 }

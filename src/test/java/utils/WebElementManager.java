@@ -8,13 +8,20 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
-public class WebElementManager extends WDManager{
+public class WebElementManager extends WDManager {
     int TIMEOUT = 10;
+    WebDriverWait wait;
 
-    public void waitForPageToBeLoaded(){
+    public WebElementManager() {
+        super();
+        wait = new WebDriverWait(driver, TIMEOUT);
+    }
+
+    public void waitForPageToBeLoaded() {
         final String javaScriptToLoadAngular =
                 "var injector = window.angular.element('body').injector();" +
                         "var $http = injector.get('$http');" +
@@ -30,15 +37,21 @@ public class WebElementManager extends WDManager{
                 .pollingEvery(Duration.ofMillis(50))
                 .until(pendingHttpCallsCondition);
     }
-    public String getTextFromElement(By locator){
-        WebDriverWait wait = new WebDriverWait(driver,TIMEOUT);
+
+    public String getTextFromElement(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(locator)));
         return driver.findElement(locator).getText();
     }
 
-    public void fillInText(By locator, String text){
-        WebDriverWait wait = new WebDriverWait(driver,TIMEOUT);
+    public void fillInText(By locator, String text) {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(locator)));
-        driver.findElement(locator).sendKeys(text);
+        WebElement element = driver.findElement(locator);
+        element.clear();
+        element.sendKeys(text);
+        /**
+         * verify if the field was filled in.
+         */
+        String actualTextInTheTextFiled = element.getAttribute("value");
+        Assert.assertTrue(actualTextInTheTextFiled.equals(text));
     }
 }
