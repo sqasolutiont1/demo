@@ -8,12 +8,7 @@ public class FormWizardFirstStepPO extends FormWizardPO {
         navigateTo(FormWizardPO.URL);
     }
     public String getDescriptionForTheFirstStep(){
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return driver.findElement(By.tagName("h2")).getText();
+        return getTextFromElement(By.tagName("h2"));
     }
     public void fillInFistName(){}
     public void fillInLastName(){}
