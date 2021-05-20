@@ -9,12 +9,13 @@ public class FilloutWizard {
     FormWizardSecondStepPO secondStep = new FormWizardSecondStepPO();
     FormWizardLastStepPO lastStep = new FormWizardLastStepPO();
 
+    //todo: refactor the code so it will reflect something
     public void fillOutAllTheSteps(String firstName,
                                    String lastName,
                                    String city,
                                    String state,
                                    String address,
-                                   String zip, boolean shouldSubmit){
+                                   String zip, boolean shouldSubmit) {
         formWizardFirstStep.fillInFistName(firstName);
         formWizardFirstStep.fillInLastName(lastName);
         formWizardFirstStep.pressOnNextBtn();
@@ -24,7 +25,7 @@ public class FilloutWizard {
         secondStep.fillStreetAddress(address);
         secondStep.fillZip(zip);
         secondStep.pressOnNextBtn();
-        if (shouldSubmit){
+        if (shouldSubmit) {
             lastStep.pressOnSubmitBtn();
             lastStep.dealThisAlert();
         }

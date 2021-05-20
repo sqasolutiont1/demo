@@ -18,7 +18,7 @@ public class FormWizardLastStepPO extends FormWizardPO {
         return getTextFromElement(By.cssSelector("div:nth-child(3) > p:nth-child(2)"));
     }
 
-    public String getLastStepData(){
+    public String getLastStepData() {
         return "";
     }
 }

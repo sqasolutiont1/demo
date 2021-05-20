@@ -77,7 +77,7 @@ public class WebElementManager extends WDManager {
         }).click();
     }
 
-    public void waitForElementIsNotPresentOnPageAnymore(By locator){
+    public void waitForElementIsNotPresentOnPageAnymore(By locator) {
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
                 .withTimeout(Duration.ofSeconds(5))
                 .pollingEvery(Duration.ofMillis(50))

@@ -16,7 +16,7 @@ public class Test_DataDrivenWizard extends CommonTest {
         };
     }
 
-    @Test(dataProvider = "testDataForWizard" )
+    @Test(dataProvider = "testDataForWizard")
     public void checkWizardForm(String firstName,
                                 String lastName,
                                 String city,
