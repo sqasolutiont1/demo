@@ -1,24 +1,20 @@
 package utils;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.function.Function;
 
 public class WebElementManager extends WDManager {
-    int TIMEOUT = 10;
-    WebDriverWait wait;
 
     public WebElementManager() {
         super();
-        wait = new WebDriverWait(driver, TIMEOUT);
     }
 
     public void waitForPageToBeLoaded() {
@@ -39,14 +35,28 @@ public class WebElementManager extends WDManager {
     }
 
     public String getTextFromElement(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(locator)));
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class);
+        wait.until(new Function<WebDriver, ExpectedCondition<WebElement>>() {
+            public ExpectedCondition<WebElement> apply(WebDriver driver) {
+                return ExpectedConditions.elementToBeClickable(driver.findElement(locator));
+            }
+        });
         return driver.findElement(locator).getText();
     }
 
     public void fillInText(By locator, String text) {
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(locator)));
-        WebElement element = driver.findElement(locator);
-        element.clear();
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class);
+        WebElement element = wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver) {
+                return driver.findElement(locator);
+            }
+        });
         element.sendKeys(text);
         /**
          * verify if the field was filled in.
@@ -54,4 +64,71 @@ public class WebElementManager extends WDManager {
         String actualTextInTheTextFiled = element.getAttribute("value");
         Assert.assertTrue(actualTextInTheTextFiled.equals(text));
     }
+
+    public void pressOnBtn(By locator) {
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class);
+        wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver) {
+                return driver.findElement(locator);
+            }
+        }).click();
+    }
+
+    public void waitForElementIsNotPresentOnPageAnymore(By locator){
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(5))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class);
+        wait.until(new Function<WebDriver, ExpectedCondition<Boolean>>() {
+            public ExpectedCondition<Boolean> apply(WebDriver driver) {
+                return ExpectedConditions.invisibilityOf(driver.findElement(locator));
+            }
+        });
+    }
+
+    public WebElement getClickableElement(By locator) {
+        return new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+
+    public List<WebElement> getClickableElements(By locator) {
+        return new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class)
+                .until(driver -> driver.findElements(locator));
+    }
+
+
+    public void waitForAttributeValue(By locator, String attributeName, String value) {
+        new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.attributeContains(locator, attributeName, value));
+    }
+
+    public Boolean waitForElementToBeDisplayed(By locator) {
+        return new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(30))
+                .pollingEvery(Duration.ofMillis(50))
+                .ignoring(NoSuchElementException.class)
+                .until(driver -> driver.findElement(locator).isDisplayed());
+    }
+
+    public Boolean isAllImagesLoaded(WebElement element) {
+        Object tmp = ((JavascriptExecutor) driver)
+                .executeScript("return arguments[0].complete && typeof arguments[0].naturalWidth != " +
+                        "\"undefined\" && arguments[0].naturalWidth > 0", element);
+        return true;
+    }
+
+
 }

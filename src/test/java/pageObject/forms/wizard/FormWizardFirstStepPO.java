@@ -12,6 +12,7 @@ public class FormWizardFirstStepPO extends FormWizardPO {
     }
 
     public String getDescriptionForTheFirstStep() {
+        waitForElementToBeDisplayed(By.xpath("//a[normalize-space()='Next']"));
         return getTextFromElement(By.tagName("h2"));
     }
 
@@ -19,6 +20,11 @@ public class FormWizardFirstStepPO extends FormWizardPO {
         fillInText(By.name("firstName"), firstName);
     }
 
-    public void fillInLastName() {
+    public void fillInLastName(String lastName) {
+        fillInText(By.name("lastName"), lastName);
+    }
+
+    public void checkIfSwitchedToTheSecondPage() {
+        waitForElementIsNotPresentOnPageAnymore(By.xpath("//h2[normalize-space()='Enter second step data']"));
     }
 }

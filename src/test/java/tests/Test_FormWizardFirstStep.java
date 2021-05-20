@@ -16,7 +16,6 @@ public class Test_FormWizardFirstStep extends CommonTest {
     public Object[][] createData1() {
         return new Object[][]{
                 {"new Integer(36)"},
-                {"new Integer(37)"},
         };
     }
 

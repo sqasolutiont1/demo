@@ -1,5 +1,6 @@
 package pageObject.forms.wizard;
 
+import org.openqa.selenium.By;
 import pageObject.basePageObject.CommonPageObject;
 
 public class FormWizardPO extends CommonPageObject {
@@ -26,6 +27,7 @@ public class FormWizardPO extends CommonPageObject {
     }
 
     public void pressOnNextBtn() {
+        pressOnBtn(By.xpath("//a[normalize-space()='Next']"));
     }
 
     public void pressOnPrevBtn() {
