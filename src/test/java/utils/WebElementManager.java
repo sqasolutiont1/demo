@@ -20,6 +20,16 @@ public class WebElementManager extends WDManager {
     super();
   }
 
+  public void selectTravelTo(By locator, String text){
+    getClickableElement(locator).sendKeys(text);
+    getClickableElement(By.xpath("(//*[@class='el-scrollbar__view el-select-dropdown__list'])[2]//*/li/div/*[contains(text(),'"+text+"')]")).click();
+  }
+
+  public void selectDestinationTo(By locator, String text) {
+    getClickableElement(locator).sendKeys(text);
+    getClickableElement(By.xpath("(//*[@class='el-scrollbar__view el-select-dropdown__list'])[4]//*/li/div/*[contains(text(),'"+text+"')]")).click();
+  }
+
   public void waitForPageToBeLoaded() {
     final String javaScriptToLoadAngular =
         "var injector = window.angular.element('body').injector();" +
@@ -94,7 +104,7 @@ public class WebElementManager extends WDManager {
 
   public WebElement getClickableElement(By locator) {
     return new FluentWait<>(driver)
-        .withTimeout(Duration.ofSeconds(30))
+        .withTimeout(Duration.ofSeconds(10))
         .pollingEvery(Duration.ofMillis(50))
         .ignoring(NoSuchElementException.class)
         .until(ExpectedConditions.elementToBeClickable(locator));
@@ -116,6 +126,30 @@ public class WebElementManager extends WDManager {
         .pollingEvery(Duration.ofMillis(50))
         .ignoring(NoSuchElementException.class)
         .until(ExpectedConditions.attributeContains(locator, attributeName, value));
+  }
+
+  public void waitForAttributeValueNotPresent(By locator, String attributeName, String value) {
+    new FluentWait<>(driver)
+        .withTimeout(Duration.ofSeconds(10))
+        .pollingEvery(Duration.ofMillis(50))
+        .ignoring(NoSuchElementException.class).until(new ExpectedCondition<Boolean>() {
+      public Boolean apply(WebDriver driver) {
+        WebElement button = driver.findElement(locator);
+        String enabled = "";
+        try {
+          enabled = button.getAttribute(attributeName);
+        } catch (NullPointerException e) {
+          enabled = "";
+        }
+        if (enabled != null) {
+          if (enabled.equals(value))
+            return false;
+          else
+            return true;
+        }
+        return true;
+      }
+    });
   }
 
   public Boolean waitForElementToBeDisplayed(By locator) {
