@@ -20,4 +20,11 @@ public class MainPage extends CommonPageObject {
   public void fillInDestinationTo(String text) {
     selectDestinationTo(By.xpath("(//*[@class = 'el-input__inner'])[4]"),text);
   }
+
+  public void selectDepartureDate() {
+    getClickableElement(By.xpath("(//*[@class=\"button-selection-content-value-going\"]//*)[2]"))
+        .sendKeys(" Mon 24 May ");
+    getClickableElement(By.xpath("(//*[@class='button-selection-content-value-back']//*)[2]"))
+        .sendKeys(" Sun 6 Jun ");
+  }
 }

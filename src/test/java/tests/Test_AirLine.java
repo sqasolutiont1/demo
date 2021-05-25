@@ -10,6 +10,7 @@ public class Test_AirLine extends CommonTest{
     mainPage.fillInTravelTo("Santiago");
     mainPage.waitForDestination();
     mainPage.fillInDestinationTo("Arica");
+    mainPage.selectDepartureDate();
     try {
       Thread.sleep(10000);
     } catch (InterruptedException e) {
