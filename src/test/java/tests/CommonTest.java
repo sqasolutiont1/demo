@@ -3,6 +3,7 @@ package tests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import pageObject.airLine.MainPage;
+import pageObject.ebay.DailyDeals;
 import pageObject.forms.wizard.FormWizardFirstStepPO;
 import pageObject.forms.wizard.FormWizardLastStepPO;
 import pageObject.forms.wizard.FormWizardPO;
@@ -15,10 +16,11 @@ public class CommonTest {
   FormWizardLastStepPO formWizardLastStep = new FormWizardLastStepPO();
   FormWizardPO formWizardPO = new FormWizardPO();
   MainPage mainPage = new MainPage();
+  DailyDeals dailyDeals = new DailyDeals();
 
   @BeforeMethod
   public void getToThePage() {
-    new MainPage().navigateToAirLine();
+    new DailyDeals().navToDDeals();
   }
 
   @AfterMethod
