@@ -40,6 +40,13 @@
       <artifactId>json-simple</artifactId>
       <version>1.1.1</version>
     </dependency>
+    <dependency>
+      <groupId>com.paulhammant</groupId>
+      <artifactId>ngwebdriver</artifactId>
+      <version>1.1.6</version>
+      <!-- You might want to delete the following line if you get "package com.paulhammant.ngwebdriver does not exist" errors -->
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
   <groupId>org.example</groupId>

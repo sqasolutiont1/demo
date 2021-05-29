@@ -1,5 +1,6 @@
 package utils;
 
+import com.paulhammant.ngwebdriver.NgWebDriver;
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
@@ -12,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class WebElementManager extends WDManager {
@@ -28,6 +30,19 @@ public class WebElementManager extends WDManager {
   public void selectDestinationTo(By locator, String text) {
     getClickableElement(locator).sendKeys(text);
     getClickableElement(By.xpath("(//*[@class='el-scrollbar__view el-select-dropdown__list'])[4]//*/li/div/*[contains(text(),'"+text+"')]")).click();
+  }
+
+  public void waitForAngular(){
+    NgWebDriver ngWebDriver = new NgWebDriver((JavascriptExecutor)driver);
+    ngWebDriver.waitForAngularRequestsToFinish();
+  }
+  public static ExpectedCondition angularHasFinishedProcessing() {
+    return driver -> {
+      JavascriptExecutor jsexec = ((JavascriptExecutor) driver);
+      String result = String.valueOf(
+          jsexec.executeScript("return (window.angular != null) && (angular.element(document).injector() != null) && (angular.element(document).injector().get('$http').pendingRequests.length === 0)"));
+      return Boolean.valueOf(result);
+    };
   }
 
   public void waitForPageToBeLoaded() {

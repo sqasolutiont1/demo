@@ -26,7 +26,8 @@ public class DailyDeals extends CommonPageObject {
     JSONObject jsonObject = new JSONObject();
 
     for(int i=0; i<getThePrices().size(); i++){
-      System.out.println(getTheDeals().get(i).getText());
+      List<WebElement> listOfDeals = getTheDeals();
+      System.out.println(listOfDeals.get(i).getText());
       System.out.println(getThePrices().get(i).getText());
       jsonObject.put(getTheDeals().get(i).getText(), getThePrices().get(i).getText());
     }
@@ -37,6 +38,7 @@ public class DailyDeals extends CommonPageObject {
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
+    assert printWriter != null;
     printWriter.write(jsonObject.toJSONString());
 
     printWriter.flush();

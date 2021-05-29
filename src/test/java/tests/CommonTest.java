@@ -20,7 +20,7 @@ public class CommonTest {
 
   @BeforeMethod
   public void getToThePage() {
-    new DailyDeals().navToDDeals();
+    new MainPage().navigateToAirLine();
   }
 
   @AfterMethod

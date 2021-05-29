@@ -13,6 +13,6 @@ public class CommonPageObject extends WebElementManager {
 
   public void navigateTo(String URL) {
     driver.navigate().to(URL);
-    //waitForPageToBeLoaded();
+    waitForAngular();
   }
 }
