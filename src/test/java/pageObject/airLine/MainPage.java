@@ -23,8 +23,12 @@ public class MainPage extends CommonPageObject {
 
   public void selectDepartureDate() {
     getClickableElement(By.xpath("(//*[@class=\"button-selection-content-value-going\"]//*)[2]"))
-        .sendKeys(" Mon 24 May ");
+        .sendKeys(" Mon 30 May ");
     getClickableElement(By.xpath("(//*[@class='button-selection-content-value-back']//*)[2]"))
         .sendKeys(" Sun 6 Jun ");
+  }
+
+  public void fillOutPromoCode(){
+    fillInText(By.xpath("(//*[@class=\"input-selection ant-input\"])[1]"),"MyPromoCode");
   }
 }

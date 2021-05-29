@@ -1,5 +1,6 @@
 package utils;
 
+import com.paulhammant.ngwebdriver.ByAngular;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 import java.time.Duration;
 import java.util.List;
@@ -147,24 +148,22 @@ public class WebElementManager extends WDManager {
     new FluentWait<>(driver)
         .withTimeout(Duration.ofSeconds(10))
         .pollingEvery(Duration.ofMillis(50))
-        .ignoring(NoSuchElementException.class).until(new ExpectedCondition<Boolean>() {
-      public Boolean apply(WebDriver driver) {
-        WebElement button = driver.findElement(locator);
-        String enabled = "";
-        try {
-          enabled = button.getAttribute(attributeName);
-        } catch (NullPointerException e) {
-          enabled = "";
-        }
-        if (enabled != null) {
-          if (enabled.equals(value))
-            return false;
-          else
-            return true;
-        }
-        return true;
-      }
-    });
+        .ignoring(NoSuchElementException.class).until((ExpectedCondition<Boolean>) driver -> {
+          WebElement button = driver.findElement(locator);
+          String enabled;
+          try {
+            enabled = button.getAttribute(attributeName);
+          } catch (NullPointerException e) {
+            enabled = "";
+          }
+          if (enabled != null) {
+            if (enabled.equals(value))
+              return false;
+            else
+              return true;
+          }
+          return true;
+        });
   }
 
   public Boolean waitForElementToBeDisplayed(By locator) {
